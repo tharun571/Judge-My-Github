@@ -7,33 +7,20 @@ var result2 = document.getElementById("result2")
 var result3 = document.getElementById("result3")
 var bool = false
 
-function onSubmit() {
+async function onSubmit(e) {
+    e.preventDefault()
     hideResult()
     var handle = inputField.value
     if (handle) {
         // do some process
         try{
-            $.getJSON("https://api.github.com/users/"+handle, function(data){
+            
+            const followData = await (await fetch(`https://api.github.com/users/${handle}`)).json()
+            followers(followData.followers, followData.following)
 
             
-                followers(data.followers, data.following)
-            
-            
-                
-
-                $.getJSON("https://api.github.com/users/"+handle+"/repos", function(reposData){
-
-                
-                
-                repos(reposData.length)
-
-
-
-
-
-                });
-            
-            });
+            const repoData = await (await fetch(`https://api.github.com/users/${handle}/repos`)).json()
+            repos(repoData.length)
 
             
             
@@ -69,7 +56,7 @@ typewriter(c,result1)
 
 }
 
-async function followers(fol, fwg){
+ function followers(fol, fwg){
     var c = ""
     if(fol > 500){
         c=c+"Daamn, "+fol+" followers. "+"Must be famous eh? "
