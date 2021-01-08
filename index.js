@@ -5,6 +5,7 @@ console.log(result)
 var result1 = document.getElementById("result1")
 var result2 = document.getElementById("result2")
 var result3 = document.getElementById("result3")
+var bool = false
 
 function onSubmit() {
     hideResult()
@@ -14,7 +15,11 @@ function onSubmit() {
         try{
             $.getJSON("https://api.github.com/users/"+handle, function(data){
 
-            followers(data.followers, data.following)
+            
+                followers(data.followers, data.following)
+            
+            
+                
 
                 $.getJSON("https://api.github.com/users/"+handle+"/repos", function(reposData){
 
@@ -43,7 +48,7 @@ function onSubmit() {
     return false
 }
 
-function repos(l){
+async function repos(l){
 var c = ""
 if(l>50){
 c+=l+" Repos. Do you even have a life?"
@@ -59,12 +64,12 @@ else{
 }
 
 result1.style.visibility = "visible"
-result1.textContent = c
+typewriter(c,result1)
 
 
 }
 
-function followers(fol, fwg){
+async function followers(fol, fwg){
     var c = ""
     if(fol > 500){
         c=c+"Daamn, "+fol+" followers. "+"Must be famous eh? "
@@ -86,7 +91,9 @@ function followers(fol, fwg){
     else{
         c=c+"Don't be that generous lol, unfollow people who don't follow you 🌚."
     }
-    showResult(c)
+    result.style.visibility = "visible"
+    typewriter(c, result)
+    
 }
 
 function hideResult() {
@@ -97,24 +104,21 @@ function hideResult() {
     result3.style.visibility = "hidden"
     
 }
-var i= 0
-var speed = 50
-var ch = ""
+
+var speed = 100
 function typewriter(char, ele){
     
     if(ele.innerHTML.length<char.length){
         ele.innerHTML += char[ele.innerHTML.length]
-        setTimeout(typewriter,speed)
+        setTimeout(typewriter,speed, char, ele)
 
+    } else {
+        bool = true
+        console.log(12345)
     }
 
 }
 
-function showResult(resutlString) {
-    result.style.visibility = "visible"
-    resultTitle.style.visibility = "visible"
-    typewriter(resutlString, result)
-}
 
 
 
