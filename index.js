@@ -6,31 +6,17 @@ var result1 = document.getElementById("result1")
 var result2 = document.getElementById("result2")
 var result3 = document.getElementById("result3")
 
-function onSubmit() {
+async function onSubmit() {
     hideResult()
     var handle = inputField.value
     if (handle) {
         // do some process
         try{
-            $.getJSON("https://api.github.com/users/"+handle, function(data){
+            const followData = await fetch(`https://api.github.com/users/${handle}`)
+            followers(followData.followers, followData.following)
 
-            followers(data.followers, data.following)
-
-                $.getJSON("https://api.github.com/users/"+handle+"/repos", function(reposData){
-
-                
-                
-                repos(reposData.length)
-
-
-
-
-
-                });
-            
-            });
-
-            
+            const repoData = await fetch(`https://api.github.com/users/${handle}/repos`)
+            repos(repoData.length)            
             
         } catch(err){
             showResult(err)
