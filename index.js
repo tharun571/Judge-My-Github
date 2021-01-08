@@ -12,10 +12,10 @@ async function onSubmit() {
     if (handle) {
         // do some process
         try{
-            const followData = await fetch(`https://api.github.com/users/${handle}`)
+            const followData = await (await fetch(`https://api.github.com/users/${handle}`)).json()
             followers(followData.followers, followData.following)
 
-            const repoData = await fetch(`https://api.github.com/users/${handle}/repos`)
+            const repoData = await (await fetch(`https://api.github.com/users/${handle}/repos`)).json()
             repos(repoData.length)            
             
         } catch(err){
