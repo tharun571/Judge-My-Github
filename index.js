@@ -6,7 +6,8 @@ var result1 = document.getElementById("result1")
 var result2 = document.getElementById("result2")
 var result3 = document.getElementById("result3")
 
-async function onSubmit() {
+async function onSubmit(e) {
+    e.preventDefault()
     hideResult()
     var handle = inputField.value
     if (handle) {
