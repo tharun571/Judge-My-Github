@@ -5,6 +5,10 @@ console.log(result)
 var result1 = document.getElementById("result1")
 var result2 = document.getElementById("result2")
 var result3 = document.getElementById("result3")
+var result4 = document.getElementById("result4")
+var result5 = document.getElementById("result5")
+var len = 0
+
 var bool = false
 
 async function onSubmit(e) {
@@ -21,6 +25,7 @@ async function onSubmit(e) {
 
             var j = 0
             var repoArray = []
+            len = userData.public_repos
             while (j < userData.public_repos) {
                 var name = repoData[j].name
                 commitData = await (await fetch(`https://api.github.com/repos/${handle}/${name}/commits`)).json()
@@ -41,13 +46,13 @@ async function onSubmit(e) {
 
             console.table(repoArray)
 
-            sortedByCommits(repoArray.sort(compareCommits))
-            sortedByTime(repoArray.sort(compareTime))
-            sortedByCommitsDividedByTime(repoArray.sort(compareCommitsDividedByTime))
-            sortedBySize(repoArray.sort(compareSize))
+            await sortedByCommits(repoArray.sort(compareCommits))
+            await sortedByTime(repoArray.sort(compareTime))
+            await sortedByCommitsDividedByTime(repoArray.sort(compareCommitsDividedByTime))
+            await sortedBySize(repoArray.sort(compareSize))
 
         } catch (err) {
-            showResult(err)
+            console.log(err)
         }
     } else {
         alert("Handle cannot be Empty!")
@@ -98,20 +103,24 @@ async function followers(fol, fwg) {
     await showResult(c, result)
 }
 
-function sortedByCommits(repoArray) {
-
+async function sortedByCommits(repoArray) {
+    await showResult("Most Committed Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][1] + " Commits", result2)
+    console.table(repoArray)
 }
 
-function sortedByTime(repoArray) {
-
+async function sortedByTime(repoArray) {
+    await showResult("Most Time Taken Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][4] / 86400 + " Days", result3)
+    console.table(repoArray)
 }
 
-function sortedByCommitsDividedByTime(repoArray) {
-
+async function sortedByCommitsDividedByTime(repoArray) {
+    await showResult("Most Efficient Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][4] / 86400 * repoArray[len - 1][1] + " Commits per Day", result4)
+    console.table(repoArray)
 }
 
-function sortedBySize(repoArray) {
-
+async function sortedBySize(repoArray) {
+    await showResult("Largest Repo : " + repoArray[len - 1][0], result5)
+    console.table(repoArray)
 }
 
 var speed = 50
@@ -134,6 +143,8 @@ function hideResult() {
     result1.style.visibility = "hidden"
     result2.style.visibility = "hidden"
     result3.style.visibility = "hidden"
+    result4.style.visibility = "hidden"
+    result5.style.visibility = "hidden"
 }
 
 async function showResult(resutlString, ele) {
