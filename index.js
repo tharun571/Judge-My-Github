@@ -25,7 +25,7 @@ async function onSubmit(e) {
 
             var j = 0
             var repoArray = []
-            len  = userData.public_repos
+            len = userData.public_repos
             while (j < userData.public_repos) {
                 var name = repoData[j].name
                 commitData = await (await fetch(`https://api.github.com/repos/${handle}/${name}/commits`)).json()
@@ -104,23 +104,23 @@ async function followers(fol, fwg) {
 }
 
 async function sortedByCommits(repoArray) {
-    await showResult("Most Committed Repo : "+repoArray[len-1][0]+" - "+ repoArray[len-1][1] + " Commits", result2)
-
+    await showResult("Most Committed Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][1] + " Commits", result2)
+    console.table(repoArray)
 }
 
 async function sortedByTime(repoArray) {
-    await showResult("Most Time Taken Repo : " + repoArray[len-1][0]+" - "+ repoArray[len-1][4]/86400 + " Days", result3)
-
+    await showResult("Most Time Taken Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][4] / 86400 + " Days", result3)
+    console.table(repoArray)
 }
 
 async function sortedByCommitsDividedByTime(repoArray) {
-    await showResult("Most Efficient Repo : "+repoArray[len-1][0]+" - "+ repoArray[len-1][4]/86400*repoArray[len-1][1] + " Commits per Day", result4)
-
+    await showResult("Most Efficient Repo : " + repoArray[len - 1][0] + " - " + repoArray[len - 1][4] / 86400 * repoArray[len - 1][1] + " Commits per Day", result4)
+    console.table(repoArray)
 }
 
 async function sortedBySize(repoArray) {
-    await showResult("Largest Repo : " + repoArray[len-1][0], result5)
-
+    await showResult("Largest Repo : " + repoArray[len - 1][0], result5)
+    console.table(repoArray)
 }
 
 var speed = 50
